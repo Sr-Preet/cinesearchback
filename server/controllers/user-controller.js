@@ -58,16 +58,23 @@ module.exports = {
   async login(req, res) {
     const { email, password } = req.body.data;
 
+    console.log(req.body.data, "posti login");
+
     if (!email || !password) {
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
 
     const user = await User.findOne({ email }).select('+password');
 
+    
+    console.log(user, "postiuser");
+
     try {
       if (!user) {
         return res.status(404).json({ msg: 'User not found' });
       }
+
+      console.log(user, "postiuser");
 
       const isValidPassword = await user.checkPassword(password);
 
